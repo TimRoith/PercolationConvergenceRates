@@ -3,6 +3,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import graphlearning as gl
 from matplotlib.pyplot import cm
+#from mpl_toolkits.mplot3d import Axes3D
 
 #%%
 def compute_optimal_path(predecessors, index):
@@ -17,7 +18,7 @@ trials = 3
 max_dists = 20
  
 #%% dimensional constants
-d = 2
+d = 3
 
 #%%Simulation window parameters
 s_max = 300
@@ -35,16 +36,57 @@ area = x_delta**(d-1) * x1_delta
 #Point process parameters
 lamda = 1 #intensity (ie mean density) of the Poisson process
 
-#%%
+#%% array for distances, points and scaling
 dists = np.linspace(2.1, s_max, max_dists)
+points = np.zeros((2, d))
 
-#%% Plotting
 def scale(s,d):
     # k = d + 2
     # return Cd*(k*np.log(2*Cdprime*Cd*s))**(1/d)
     return np.log(s)**(1/d)
 
-#%%
+#%% Plotting
+sc_plot = True
+class plot_handler:
+    def __init__(self, ax, points):
+        self.d = points.shape[-1]
+        self.points=points
+        
+        if self.d==1:
+            ax[0,0].scatter(points, 0*points, c='skyblue', s=1)
+            self.path_vis = ax[0,0].scatter(points[:2], 0*points[:2], c='tab:pink',s=10)
+            self.target_vis = ax[0,0].scatter(points[:2], 0*points[:2], c='navy', s=25, marker='o')
+
+        elif self.d==2:
+            ax[0,0].scatter(points[:,0], points[:,1], c='skyblue', s=1)
+            path_plot, = ax[0,0].plot(points[:2,0], points[:2,1], c='tab:pink',linewidth=2)
+            self.path_vis = path_plot
+            self.target_vis = ax[0,0].scatter(points[:2,0], points[:2,1], c='navy', s=25, marker='o')
+        
+        elif self.d==3:
+            ax[0,0].scatter(points[:,0], points[:,1], zs=points[:,2], c='skyblue', s=1,alpha=0.1)
+            path_plot, = ax[0,0].plot(points[:2,0], points[:2,1], zs=points[:2,2], c='tab:pink',linewidth=2)
+            self.path_vis = path_plot
+            self.target_vis = ax[0,0].scatter(points[:2,0], points[:2,1], points[:2,2], c='navy', s=25, marker='o')
+        
+        else:
+            raise ValueError('Unsupported dimension!')
+            
+    def update(self, idx):
+        if self.d==1:
+            self.target_vis.set_offsets(np.hstack([self.points[:2], np.zeros((2,1))]))
+            if len(idx)>1:
+                self.path_vis.set_offsets(np.hstack([self.points[idx],np.zeros((len(idx),1))]))
+        elif self.d==2:
+            self.target_vis.set_offsets(self.points[:2,:])
+            self.path_vis.set_data(self.points[idx,0],self.points[idx,1])
+            
+        elif self.d==3:
+            pass
+            self.target_vis._offsets3d = (self.points[:2,0], self.points[:2,1], self.points[:2,2]) 
+            self.path_vis.set_data_3d(self.points[idx,0], self.points[idx,1], self.points[idx,2])
+                
+#%% main loop
 ratios = [[] for T in range(trials)]
 
 for T in range(trials):
@@ -65,17 +107,15 @@ for T in range(trials):
         else:
             points[2:, i] = x_delta * scipy.stats.uniform.rvs(0,1,((num_pts,)))+x_min
     
-    #plot Poisson cloud
-    if d == 1:
-        plt.figure()
-        plt.scatter(points,0*points)
-    if d == 2:
-        plt.figure()
-        plt.scatter(points[:,0],points[:,1])
-    # if d == 3:
-    #     fig = plt.figure()
-    #     ax = fig.add_subplot(111, projection='3d')
-    #     # ax.scatter(points[:,0],points[:,1],points[:,2])
+    # set up plots
+    if sc_plot:
+        plt.close('all')
+        proj = '3d' if d==3 else None
+        fig, ax = plt.subplots(1,1,squeeze=False, subplot_kw={'projection': proj})
+        
+        ph = plot_handler(ax, points)
+        plt.show()
+        plt.pause(0.1)
             
     
     for s in dists:
@@ -99,13 +139,16 @@ for T in range(trials):
             g_dist = dist_matrix[0,1]
             path = compute_optimal_path(predecessors, 1)
             c = next(color)
-            if d == 1:
-                plt.scatter(points[idx[path]],0*points[idx[path]],color=c)
-            if d == 2:
-                plt.scatter(points[idx[path],0],points[idx[path],1],color=c)                
-            # if d == 3:
-            #     plt.scatter(points[idx[path],0],points[idx[path],1],points[idx[path],2],color=c)
-                    
+            
+            # scatter plot
+            if sc_plot:
+                ph.update(idx[path])
+
+                    #sc.scatter(points[idx[path],0],points[idx[path],1],color=c)                
+                # if d == 3:
+                #     plt.scatter(points[idx[path],0],points[idx[path],1],points[idx[path],2],color=c)
+                plt.draw()
+                plt.pause(0.5)   
         
         print('Distance {}, ratio {}'.format(s,g_dist/s))
         ratios[T].append(g_dist/s)
