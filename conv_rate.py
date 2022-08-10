@@ -3,6 +3,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import graphlearning as gl
 from matplotlib.pyplot import cm
+import time
 #%% custom imports
 from utils import compute_optimal_path, scale, plot_handler, Poisson_process
 
@@ -26,7 +27,7 @@ random_seed = 42
 
 #%% 
 trials = 20
-ratios = [[] for i in range(trials)]
+ratios = np.zeros((trials, len(dists)))
 PP = Poisson_process(bounds, lamda = lamda, area = area, d=d)
 
 
@@ -39,7 +40,7 @@ for T in range(trials):
     np.random.seed(T)
     points = np.vstack([np.zeros((2, d)), PP()])
     
-    for s in dists:
+    for i,s in enumerate(dists):
         # update target point
         points[1,0] = s
         
@@ -60,4 +61,10 @@ for T in range(trials):
             g_dist = dist_matrix[0,1] 
         
         print('Distance {}, ratio {}'.format(s,g_dist/s))
-        ratios[T].append(g_dist/s)
+        ratios[T,i] = g_dist/s
+        
+#%% save ratios to file
+time_str = time.strftime("%Y%m%d-%H%M%S")
+fname = "results/ratios-" + time_str
+
+np.savetxt(fname, ratios)
