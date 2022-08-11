@@ -3,15 +3,10 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import graphlearning as gl
 from matplotlib.pyplot import cm
-#from mpl_toolkits.mplot3d import Axes3D
 
-#%%
-def compute_optimal_path(predecessors, index):
-    path = []
-    while index != -9999:
-        path.append(index)
-        index = predecessors[0,index]
-    return path    
+#%% custom imports
+from utils import compute_optimal_path, scale, plot_handler
+ 
  
 sc_plot = False
     
@@ -41,6 +36,7 @@ lamda = 1 #intensity (ie mean density) of the Poisson process
 #%% array for distances, points and scaling
 dists = np.linspace(2.1, s_max, max_dists)
 points = np.zeros((2, d))
+
 
 def scale(s,d):
     return np.log(s)**(1/d)
@@ -84,6 +80,10 @@ class plot_handler:
             pass
             self.target_vis._offsets3d = (self.points[:2,0], self.points[:2,1], self.points[:2,2]) 
             self.path_vis.set_data_3d(self.points[idx,0], self.points[idx,1], self.points[idx,2])
+
+
+#%% Plotting
+sc_plot = True
                 
 #%% main loop
 ratios = np.zeros((trials, max_dists))
