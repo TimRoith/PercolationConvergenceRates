@@ -47,7 +47,7 @@ plt.show()
 plt.pause(0.1)
         
 #%% main loop
-for s in dists:
+for i, s in enumerate(dists):
     # update target point
     points[1,0] = s
     
@@ -71,7 +71,12 @@ for s in dists:
         # update plot
         ph.update(idx[path])
         plt.draw()
-        plt.pause(0.5)   
+        plt.pause(0.5)
+        
+    if i%5==0:
+        name = './results/vis/vis_' + str(d) + 'd_'+str(i) + '.png'
+        plt.tight_layout()
+        plt.savefig(name)
     
     print('Distance {}, ratio {}'.format(s,g_dist/s))
     ratios.append(g_dist/s)
