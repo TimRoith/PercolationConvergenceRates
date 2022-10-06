@@ -10,10 +10,22 @@ def compute_optimal_path(predecessors, index):
     return path
 
 #%% scale function
-def scale(s,d):
-    # k = d + 2
-    # return Cd*(k*np.log(2*Cdprime*Cd*s))**(1/d)
-    return np.log(s)**(1/d)
+class scale:
+    def __init__(self, d):
+        self.d = d
+        
+
+class log_scale(scale):
+    def __init__(self, d=1, factor = 1.):
+        super().__init__(d)
+        self.factor = 1.
+        
+    def __call__(self, s):
+        return self.factor * np.log(s)**(1/self.d)
+
+    def __repr__(self):
+        return 'log-scale-factor-'+str(self.factor)
+    
 
 #%% point process
 class Poisson_process:
