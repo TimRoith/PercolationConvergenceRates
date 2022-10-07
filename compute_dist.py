@@ -2,7 +2,7 @@
 import numpy as np
 import scipy.stats
 import matplotlib.pyplot as plt
-import graphlearning as gl
+#import graphlearning as gl
 from matplotlib.pyplot import cm
 import time
 import pickle
@@ -20,7 +20,7 @@ params = {
 'num_s' : 10,# number of points for s
 'd' : d, # spatial dimension
 'lamda' : 1,# intensity of the point process
-'num_cores' : 8,
+'num_cores' : 40,
 'num_trials': 100,
 'scaling' : utils.log_scale(d=d)}
 
