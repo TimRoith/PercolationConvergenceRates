@@ -16,12 +16,12 @@ import utils
 #%% parameters
 d = 2
 params = {
-'s_max' : 1000,# maximal domain size in the first component
+'s_max' : 2000,# maximal domain size in the first component
 'num_s' : 10,# number of points for s
 'd' : d, # spatial dimension
 'lamda' : 1,# intensity of the point process
 'num_cores' : 8,
-'num_trials': 50,
+'num_trials': 100,
 'scaling' : utils.log_scale(d=d)}
 
 #%% domain and point process setup
