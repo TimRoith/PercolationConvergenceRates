@@ -36,14 +36,15 @@ params = {
 'lamda' : 1,# intensity of the point process
 'num_cores' : 40,
 'num_trials': 100,
-'scaling' : utils.log_scale(d=d, factor=factor)}
+'factor':1}
 
 #%% read command line
 #Read command line parameters
 try:
     opts, args = getopt.getopt(sys.argv[1:],
                                "hD:b:e:dsgt:pc:n:v",
-                               ["help","d=","factor=","num_trials=",
+                               ["help","d=","factor=","s_max=", "num_s=", 
+                                "num_trials=",
                                 "parallel","num_cores=","verbose"])
 except getopt.GetoptError:
     print_help()
@@ -53,19 +54,21 @@ for opt, arg in opts:
         print_help()
         sys.exit()
     elif opt in ("-d", "--d"):
-        d = int(arg)
+        params['d'] = int(arg)
     elif opt in ("-f", "--factor"):
-        bandwidth_constant = float(arg)
+        params['factor'] = float(arg)
     elif opt in ("-s", "--s_max"):
-        s_max = float(arg)
+        params['s_max'] = float(arg)
     elif opt in ("-n", "--num_s"):
-        num_s = int(arg)
+        params['num_s'] = int(arg)
     elif opt in ("-t", "--num_trials"):
         num_trials = int(arg)
     elif opt in ("-p", "--parallel"):
         parallel = True
     elif opt in ("-c", "--num_cores"):
-        num_cores = int(arg)
+        params['num_cores'] = int(arg)
+        
+params['scaling'] = utils.log_scale(d=d, factor=params['factor'])
 
 #%% domain and point process setup
 bounds = np.zeros((d, 2))
