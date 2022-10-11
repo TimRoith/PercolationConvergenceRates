@@ -28,7 +28,6 @@ def print_help():
     print('   -v (--verbose): Verbose mode.')
 #%% parameters
 d = 2
-factor = 1.
 params = {
 's_max' : 2000,# maximal domain size in the first component
 'num_s' : 10,# number of points for s
@@ -141,7 +140,7 @@ if __name__ == '__main__':
     
     #%% set up csv file and save parameters
     time_str = time.strftime("%Y%m%d-%H%M%S")
-    fname = "results/distances-" + time_str + '.csv'
+    fname = "results/distances-" + str(params['factor']) + "-" + time_str + '.csv'
     with open(fname, 'w') as f:
         writer = csv.writer(f, lineterminator = '\n')
         for p in params:
