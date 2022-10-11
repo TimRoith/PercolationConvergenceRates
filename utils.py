@@ -18,7 +18,7 @@ class scale:
 class log_scale(scale):
     def __init__(self, d=1, factor = 1.):
         super().__init__(d)
-        self.factor = 1.
+        self.factor = factor
         
     def __call__(self, s):
         return self.factor * np.log(s)**(1/self.d)

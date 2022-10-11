@@ -14,5 +14,5 @@
 #   -v (--verbose): Verbose mode.
 
 #All experiments star domain
-python3 compute_dist.py -s 3000.0 -n 30 -f 0.1 -t 100 -p -c 80
-python3 compute_dist.py -s 3000.0 -n 30 -f 2.1 -t 100 -p -c 80       
+python3 compute_dist.py -s 30.0 -n 30 -f 0.1 -t 100 -p -c 80
+python3 compute_dist.py -s 30.0 -n 30 -f 2.1 -t 100 -p -c 80       
