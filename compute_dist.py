@@ -43,7 +43,7 @@ params = {
 try:
     opts, args = getopt.getopt(sys.argv[1:],
                                "h:s:n:d:f:t:pc:v",
-                               ["help","d=","factor=","s_max=", "num_s=", 
+                               ["help","s_max=","num_s=","d=","factor=", 
                                 "num_trials=",
                                 "parallel","num_cores=","verbose"])
 except getopt.GetoptError:
