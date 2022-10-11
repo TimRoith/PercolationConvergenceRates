@@ -42,7 +42,7 @@ params = {
 #Read command line parameters
 try:
     opts, args = getopt.getopt(sys.argv[1:],
-                               "hD:b:e:dsgt:pc:n:v",
+                               "h:s:n:d:f:t:pc:v",
                                ["help","d=","factor=","s_max=", "num_s=", 
                                 "num_trials=",
                                 "parallel","num_cores=","verbose"])
