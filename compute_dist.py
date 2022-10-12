@@ -119,8 +119,8 @@ def trial(T):
                 g_dist_2 = dist_matrix[0,2] 
             
             with mp_arr.get_lock():
-                mp_arr[2*(T*params['num_s']+i)] = g_dist
-                mp_arr[2*(T*params['num_s']+i)+1] = g_dist
+                mp_arr[2*(T*params['num_s']+i)] = g_dist_1
+                mp_arr[2*(T*params['num_s']+i)+1] = g_dist_2
         
 
 #%% Main Loop
