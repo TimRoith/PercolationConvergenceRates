@@ -64,7 +64,7 @@ for opt, arg in opts:
     elif opt in ("-n", "--num_s"):
         params['num_s'] = int(arg)
     elif opt in ("-t", "--num_trials"):
-        num_trials = int(arg)
+        params['num_trials'] = int(arg)
     elif opt in ("-p", "--parallel"):
         parallel = True
     elif opt in ("-c", "--num_cores"):
