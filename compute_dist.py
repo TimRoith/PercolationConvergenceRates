@@ -97,11 +97,11 @@ def trial(T):
     for i,s in enumerate(s_disc):
         print("Trial " + str(T) +" starts computing for s=" + str(s))
         # update target point
-        points[1,0] = s/2
-        points[2,0] = s
+        points[1,0] = s
+        points[2,0] = 2*s
         
         # get points in frame
-        idx, = np.where(np.prod(np.abs(points) < 1.25*s, axis=1))
+        idx, = np.where(np.prod(np.abs(points) < 2.25*s, axis=1))
         loc_points = points[idx,:]
         if len(idx)>=2:
             h = params['scaling'](s)
@@ -131,7 +131,7 @@ def init_arr(mp_arr_):
 
 num_cores = min(mp.cpu_count(),params['num_cores'])
 def main():    
-    mp_arr = mp.Array('d', params['num_trials']*params['num_s']) # shared, can be used from multiple processes
+    mp_arr = mp.Array('d', 2*params['num_trials']*params['num_s']) # shared, can be used from multiple processes
 
     pool = mp.Pool(num_cores, initializer=init_arr, initargs=(mp_arr,))
     
