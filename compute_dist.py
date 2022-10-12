@@ -119,29 +119,32 @@ def trial(T):
                 g_dist_2 = dist_matrix[0,2] 
             
             with mp_arr.get_lock():
-                mp_arr[2*(T*params['num_s']+i)] = g_dist_1
-                mp_arr[2*(T*params['num_s']+i)+1] = g_dist_2
+                mp_arr[T*params['num_s']+i] = g_dist_1
+                mp_arr2[T*params['num_s']+i] = g_dist_2
         
 
 #%% Main Loop
-def init_arr(mp_arr_):
+def init_arr(mp_arr_, mp_arr2_):
     global mp_arr
+    global mp_arr2
     mp_arr = mp_arr_
+    mp_arr2 = mp_arr2_
     
 
 num_cores = min(mp.cpu_count(),params['num_cores'])
 def main():    
-    mp_arr = mp.Array('d', 2*params['num_trials']*params['num_s']) # shared, can be used from multiple processes
-
-    pool = mp.Pool(num_cores, initializer=init_arr, initargs=(mp_arr,))
+    mp_arr = mp.Array('d', params['num_trials']*params['num_s']) # shared, can be used from multiple processes
+    mp_arr2 = mp.Array('d', params['num_trials']*params['num_s'])
+    
+    pool = mp.Pool(num_cores, initializer=init_arr, initargs=(mp_arr, mp_arr2))
     
     with closing(pool):
         pool.imap_unordered(trial, range(params['num_trials']))
     pool.join()
-    return mp_arr
+    return mp_arr, mp_arr2
     
 if __name__ == '__main__':    
-    arr = main()
+    arr, arr2 = main()
     
     #%% set up csv file and save parameters
     time_str = time.strftime("%Y%m%d-%H%M%S")
@@ -154,6 +157,11 @@ if __name__ == '__main__':
         writer.writerow(['T'] + list(s_disc))
         for T in range(params['num_trials']):
             row = arr[T*params['num_s']:((T+1)*params['num_s'])]
+            row = [T] + list(row)
+            writer.writerow(row)
+            
+        for T in range(params['num_trials']):
+            row = arr2[T*params['num_s']:((T+1)*params['num_s'])]
             row = [T] + list(row)
             writer.writerow(row)
     
