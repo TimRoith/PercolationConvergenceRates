@@ -29,6 +29,7 @@ def print_help():
 #%% parameters
 d = 2
 params = {
+'s_min' : 1,
 's_max' : 2000,# maximal domain size in the first component
 'num_s' : 10,# number of points for s
 'd' : d, # spatial dimension
@@ -41,8 +42,8 @@ params = {
 #Read command line parameters
 try:
     opts, args = getopt.getopt(sys.argv[1:],
-                               "h:s:n:d:f:t:pc:v",
-                               ["help","s_max=","num_s=","d=","factor=", 
+                               "h:s:m:n:d:f:t:pc:v",
+                               ["help","s_max=","s_min=","num_s=","d=","factor=", 
                                 "num_trials=",
                                 "parallel","num_cores=","verbose"])
 except getopt.GetoptError:
@@ -58,6 +59,8 @@ for opt, arg in opts:
         params['factor'] = float(arg)
     elif opt in ("-s", "--s_max"):
         params['s_max'] = float(arg)
+    elif opt in ("-m", "--s_min"):
+        params['s_min'] = float(arg)
     elif opt in ("-n", "--num_s"):
         params['num_s'] = int(arg)
     elif opt in ("-t", "--num_trials"):
@@ -80,9 +83,7 @@ bounds[1:,1] = params['s_max']**(1/d)
 delta = bounds[:,1] - bounds[:,0]
 area = np.prod(delta)
 PP = utils.Poisson_process(bounds, lamda = params['lamda'], area = area, d=d)
-s_disc = np.linspace(1.0, params['s_max']/2, params['num_s']//2) # array for s discretization
-s_disc = np.sort(np.hstack([s_disc, 2*s_disc]))
-params['num_s'] = len(s_disc)
+s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array for s discretization
 
 
 #%% Trial
@@ -95,7 +96,8 @@ def trial(T):
     
     for i,s in enumerate(s_disc):
         # update target point
-        points[1,0] = s
+        points[1,0] = s/2
+        points[2,0] = s
         
         # get points in frame
         idx, = np.where(np.prod(np.abs(points) < 1.25*s, axis=1))
@@ -112,10 +114,12 @@ def trial(T):
             else:
                 # dist_matrix = scipy.sparse.csgraph.dijkstra(W, directed=False, indices=[0])
                 dist_matrix = scipy.sparse.csgraph.shortest_path(W, directed=False, indices=[0],return_predecessors=False)
-                g_dist = dist_matrix[0,1] 
+                g_dist_1 = dist_matrix[0,1]
+                g_dist_2 = dist_matrix[0,2] 
             
             with mp_arr.get_lock():
-                mp_arr[T*params['num_s']+i] = g_dist
+                mp_arr[2*(T*params['num_s']+i)] = g_dist
+                mp_arr[2*(T*params['num_s']+i)+1] = g_dist
         
 
 #%% Main Loop
