@@ -95,7 +95,7 @@ def trial(T):
     print('<>'*10,flush = True)  
     
     for i,s in enumerate(s_disc):
-        print("Trial " + str(T) +" starts computing for s=" + str(s))
+        print("Trial " + str(T) +" starts computing for s=" + str(s),flush = True)
         # update target point
         points[1,0] = s
         points[2,0] = 2*s
@@ -111,7 +111,8 @@ def trial(T):
             W = kd_tree.sparse_distance_matrix(kd_tree, h)
             
             if np.sum(W[0,:]) == 0:
-                g_dist = np.inf
+                g_dist_1 = np.inf
+                g_dist_2 = np.inf
             else:
                 # dist_matrix = scipy.sparse.csgraph.dijkstra(W, directed=False, indices=[0])
                 dist_matrix = scipy.sparse.csgraph.shortest_path(W, directed=False, indices=[0],return_predecessors=False)
