@@ -95,6 +95,7 @@ def trial(T):
     print('<>'*10,flush = True)  
     
     for i,s in enumerate(s_disc):
+        print("Trial " + str(T) +" starts computing for s=" + str(s))
         # update target point
         points[1,0] = s/2
         points[2,0] = s
