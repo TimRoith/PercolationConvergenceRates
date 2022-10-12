@@ -120,6 +120,8 @@ def trial(T):
             
             with mp_arr.get_lock():
                 mp_arr[T*params['num_s']+i] = g_dist_1
+                
+            with mp_arr2.get_lock():
                 mp_arr2[T*params['num_s']+i] = g_dist_2
         
 
