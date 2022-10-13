@@ -44,6 +44,8 @@ class Poisson_process:
                                              high=self.bounds[i, 1],\
                                              size=(num_pts,))
         return points
+    
+
 
 #%% plot handling
 class plot_handler:

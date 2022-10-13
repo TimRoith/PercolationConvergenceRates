@@ -21,37 +21,32 @@ dists = data[0][0,:]
 plt.close('all')
 
 scale_factors = [.5, 0.7, .9, 1.1]
-colors=['r', 'y', 'b', 'g','peru', 'tan', 'coral',  ]
+colors=['peru', 'coral',  'r', 'y', 'b', 'g','tan',]
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
-
-
 for i in range(len(data)):
     graph_dists = data[i][:num_trials, :]
+    graph_dists_2 = data[i][num_trials:, :]
     ratios = graph_dists/dists
+    ratios_2 = graph_dists_2/dists
     
     exp_ratios = np.mean(ratios, axis=0)
+    exp_ratios_2 = np.mean(ratios_2, axis=0)
     std_ratios = np.std(ratios, axis=0)
     
-    errors = np.abs(exp_ratios - exp_ratios[-1])
-    m = len(errors)
-    k = m-5
-    
-    #EOC = np.log(errors[1:m-1]/errors[2:])/np.log(errors[:m-2]/errors[1:m-1])
     # plotting
     color = colors[i]
     ax[0].plot(dists, exp_ratios, marker ='.', label=str(scale_factors[i]), color=color)
+    ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
     ax[0].fill_between(dists, exp_ratios - std_ratios,\
                            exp_ratios + std_ratios,\
                            alpha=0.3, edgecolor=None, color=color)
         
-    ax[1].plot(dists[:k], errors[:k], marker ='.', label=str(scale_factors[i]), color=color)
-    ax[1].fill_between(dists[:k], (errors - std_ratios)[:k],\
-                           (errors + std_ratios)[:k],\
+    ax[1].plot(dists, exp_ratios, marker ='.', label=str(scale_factors[i]), color=color)
+    ax[1].fill_between(dists, (exp_ratios - std_ratios),\
+                           (exp_ratios + std_ratios),\
                            alpha=0.3, edgecolor=None, color=color)
     
-    #idx = [i for i in range(m-2) if 0<EOC[i]<np.inf]
-    #ax[2].plot(EOC[idx], color = color,marker = '.')
 
 ax[1].set_yscale('log')
 ax[1].set_xscale('log')   
@@ -80,6 +75,7 @@ for i in range(len(data)):
     exp_dists_2 = np.mean(graph_dists_2, axis=0)
     
     idx, = np.where((exp_dists_1 + exp_dists_2) < np.inf)
+    #idx = idx[1:]
     
     if len(idx)>0:
         ratios = exp_dists_1[idx]/exp_dists_2[idx]

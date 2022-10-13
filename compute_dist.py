@@ -88,11 +88,12 @@ s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array 
 
 #%% Trial
 def trial(T):
-    np.random.seed(T)
-    points = np.vstack([np.zeros((2, d)), PP()])
+    seed = np.random.randint(100000)
+    np.random.seed(seed)
+    points = np.vstack([np.zeros((3, d)), PP()])
     print('<>'*10, flush = True)
     print('Starting Trial:' + str(T),flush = True)
-    print('<>'*10,flush = True)  
+    print('<>'*10,flush = True) 
     
     for i,s in enumerate(s_disc):
         print("Trial " + str(T) +" starts computing for s=" + str(s),flush = True)
