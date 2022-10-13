@@ -4,30 +4,31 @@ import csv
 import os
 
 
-#%% get files
+#%% get files and extract data
 cur_path = os.path.dirname(os.path.realpath(__file__))
-path = cur_path + "\\log_scales"
+path = cur_path + "\\log_scales_large"
 files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 data = []
 
 for fname in files:
-    G = np.genfromtxt(path + '\\' +  fname, delimiter=',', skip_header=8)
+    G = np.genfromtxt(path + '\\' +  fname, delimiter=',', skip_header=9)
     data.append(G[:,1:])
-    
+
+num_trials = data[0].shape[0]//2
+dists = data[0][0,:]
 #%%
 plt.close('all')
-dists = data[0][0,:]
-scale_factors = [0.1, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2]
+
+scale_factors = [.5, 0.7, .9, 1.1]
 colors=['r', 'y', 'b', 'g','peru', 'tan', 'coral',  ]
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
 
+
 for i in range(len(data)):
-    graph_dists = data[i][1:]
+    graph_dists = data[i][:num_trials, :]
     ratios = graph_dists/dists
-    
-    idx = [j for j in range(len(ratios)) if ratios[j]< np.inf ]
     
     exp_ratios = np.mean(ratios, axis=0)
     std_ratios = np.std(ratios, axis=0)
@@ -70,14 +71,12 @@ for i in range(m):
             idx_1.append(i)
             idx_2.append(j)
             break
-idx_1 = np.array(idx_1)
-idx_2 = np.array(idx_2)
     
 for i in range(len(data)):
-    graph_dists_1 = data[i][:, idx_1]
+    graph_dists_1 = data[i][:num_trials, :]
     exp_dists_1 = np.mean(graph_dists_1, axis=0)
     
-    graph_dists_2 = data[i][:, idx_2]
+    graph_dists_2 = data[i][num_trials:, :]
     exp_dists_2 = np.mean(graph_dists_2, axis=0)
     
     idx, = np.where((exp_dists_1 + exp_dists_2) < np.inf)
@@ -86,8 +85,8 @@ for i in range(len(data)):
         ratios = exp_dists_1[idx]/exp_dists_2[idx]
         errors = np.abs(ratios - 0.5)
         color = colors[i]
-        ax2[0].plot(dists[idx_1[idx]], ratios, marker ='.', label=str(scale_factors[i]), color=color)
-        ax2[1].plot(dists[idx_1[idx]], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
+        ax2[0].plot(dists[idx], ratios, marker ='.', label=str(scale_factors[i]), color=color)
+        ax2[1].plot(dists[idx], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
 
 ax2[1].set_yscale('log')
 ax2[1].set_xscale('log')
