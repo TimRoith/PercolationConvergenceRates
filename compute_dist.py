@@ -11,7 +11,6 @@ import utils
 #%% Help for Params
 #Print help
 def print_help():
-    
     print('<>'*30)
     print(' Compute Percolation Distances')
     print('<>'*30)
@@ -88,7 +87,7 @@ s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array 
 
 #%% Trial
 def trial(T):
-    seed = np.random.randint(100000)
+    seed = T**2
     np.random.seed(seed)
     points = np.vstack([np.zeros((3, d)), PP()])
     print('<>'*10, flush = True)

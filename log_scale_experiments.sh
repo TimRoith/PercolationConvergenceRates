@@ -16,9 +16,9 @@
 #All experiments star domain
 # python3 compute_dist.py -s 9000.0 -n 30 -f 0.5 -t 100 -p -c 50
 # python3 compute_dist.py -s 9000.0 -n 30 -f 0.7 -t 100 -p -c 50
-python3 compute_dist.py -s 4000.0 -n 30 -f 0.5 -t 100 -p -c 35
-python3 compute_dist.py -s 4000.0 -n 30 -f 0.6 -t 100 -p -c 35
-python3 compute_dist.py -s 4000.0 -n 30 -f 0.7 -t 100 -p -c 35
-python3 compute_dist.py -s 4000.0 -n 30 -f 0.8 -t 100 -p -c 35
-python3 compute_dist.py -s 4000.0 -n 30 -f 0.9 -t 100 -p -c 35
-python3 compute_dist.py -s 4000.0 -n 30 -f 1.0 -t 100 -p -c 35
+#python3 compute_dist.py -s 3000.0 -n 20 -f 0.5 -t 100 -p -c 35
+python3 compute_dist.py -s 3000.0 -n 20 -f 0.6 -t 20 -p -c 35
+#python3 compute_dist.py -s 3000.0 -n 20 -f 0.7 -t 100 -p -c 35
+python3 compute_dist.py -s 3000.0 -n 20 -f 0.8 -t 20 -p -c 35
+#python3 compute_dist.py -s 3000.0 -n 20 -f 0.9 -t 100 -p -c 35
+python3 compute_dist.py -s 3000.0 -n 20 -f 1.0 -t 20 -p -c 35

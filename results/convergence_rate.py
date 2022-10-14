@@ -20,7 +20,7 @@ dists = data[0][0,:]
 #%%
 plt.close('all')
 
-scale_factors = [.5, 0.7, .9, 1.1]
+scale_factors = [.5, .6, .7, .8, .9, 1.0]
 colors=['peru', 'coral',  'r', 'y', 'b', 'g','tan',]
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
@@ -37,7 +37,7 @@ for i in range(len(data)):
     # plotting
     color = colors[i]
     ax[0].plot(dists, exp_ratios, marker ='.', label=str(scale_factors[i]), color=color)
-    ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
+   # ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
     ax[0].fill_between(dists, exp_ratios - std_ratios,\
                            exp_ratios + std_ratios,\
                            alpha=0.3, edgecolor=None, color=color)
@@ -68,11 +68,13 @@ for i in range(m):
             break
     
 for i in range(len(data)):
-    graph_dists_1 = data[i][:num_trials, :]
+    graph_dists_1 = data[i][1:num_trials+1, :]
     exp_dists_1 = np.mean(graph_dists_1, axis=0)
     
-    graph_dists_2 = data[i][num_trials:, :]
+    graph_dists_2 = data[i][num_trials+1:, :]
     exp_dists_2 = np.mean(graph_dists_2, axis=0)
+    
+    trial_ratios = np.mean(graph_dists_1/graph_dists_2,axis=0)
     
     idx, = np.where((exp_dists_1 + exp_dists_2) < np.inf)
     #idx = idx[1:]
@@ -81,8 +83,11 @@ for i in range(len(data)):
         ratios = exp_dists_1[idx]/exp_dists_2[idx]
         errors = np.abs(ratios - 0.5)
         color = colors[i]
-        ax2[0].plot(dists[idx], ratios, marker ='.', label=str(scale_factors[i]), color=color)
-        ax2[1].plot(dists[idx], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
+        #ax2[0].plot(dists[idx], ratios, marker ='.', label=str(scale_factors[i]),color=color)
+        ax2[0].plot(dists[idx], trial_ratios[idx], marker ='.', label=str(scale_factors[i]),color=color)
+       
+        ax2[1].plot(dists[idx], np.abs(trial_ratios[idx]-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
+        #ax2[1].plot(dists[idx], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
 
 ax2[1].set_yscale('log')
 ax2[1].set_xscale('log')
