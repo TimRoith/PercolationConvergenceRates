@@ -6,7 +6,7 @@ import os
 
 #%% get files and extract data
 cur_path = os.path.dirname(os.path.realpath(__file__))
-path = cur_path + "\\log_scales_large"
+path = cur_path + "\\log_scales_medium"
 files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 data = []
@@ -20,31 +20,31 @@ dists = data[0][0,:]
 #%%
 plt.close('all')
 
-scale_factors = [.5, .6, .7, .8, .9, 1.0]
+scale_factors = [.7, .8, 1.0, .8, .9, 1.0]
 colors=['peru', 'coral',  'r', 'y', 'b', 'g','tan',]
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
 for i in range(len(data)):
-    graph_dists = data[i][:num_trials, :]
-    graph_dists_2 = data[i][num_trials:, :]
+    graph_dists = data[i][1:num_trials+1, :]
+    graph_dists_2 = data[i][num_trials+1:, :]
     ratios = graph_dists/dists
     ratios_2 = graph_dists_2/dists
     
     exp_ratios = np.mean(ratios, axis=0)
     exp_ratios_2 = np.mean(ratios_2, axis=0)
-    std_ratios = np.std(ratios, axis=0)
+    std_ratios_2 = np.std(ratios_2, axis=0)
     
     # plotting
     color = colors[i]
-    ax[0].plot(dists, exp_ratios, marker ='.', label=str(scale_factors[i]), color=color)
+    ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
    # ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
-    ax[0].fill_between(dists, exp_ratios - std_ratios,\
-                           exp_ratios + std_ratios,\
+    ax[0].fill_between(dists, exp_ratios_2 - std_ratios_2,\
+                           exp_ratios_2 + std_ratios_2,\
                            alpha=0.3, edgecolor=None, color=color)
         
-    ax[1].plot(dists, exp_ratios, marker ='.', label=str(scale_factors[i]), color=color)
-    ax[1].fill_between(dists, (exp_ratios - std_ratios),\
-                           (exp_ratios + std_ratios),\
+    ax[1].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
+    ax[1].fill_between(dists, (exp_ratios_2 - std_ratios_2),\
+                           (exp_ratios_2 + std_ratios_2),\
                            alpha=0.3, edgecolor=None, color=color)
     
 
@@ -91,6 +91,7 @@ for i in range(len(data)):
 
 ax2[1].set_yscale('log')
 ax2[1].set_xscale('log')
+ax2[1].axis('equal')
 legend = ax2[0].legend()
 legend.set_title('Factors')
 
