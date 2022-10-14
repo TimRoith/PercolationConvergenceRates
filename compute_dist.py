@@ -72,58 +72,56 @@ for opt, arg in opts:
 params['scaling'] = utils.log_scale(d=d, factor=params['factor'])
 
 #%% domain and point process setup
-bounds = np.zeros((d, 2))
-bounds[0,0] = -0.25 * params['s_max']
-bounds[0,1] = 1.25 * params['s_max']
-bounds[1:,0] = -params['s_max']**(1/d)
-bounds[1:,1] = params['s_max']**(1/d)
+
 
 # initialize the function for creating a Poisson point process
-delta = bounds[:,1] - bounds[:,0]
-area = np.prod(delta)
-PP = utils.Poisson_process(bounds, lamda = params['lamda'], area = area, d=d)
-s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array for s discretization
+#s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array for s discretization
 
-
+s_disc = [2**i * params['s_min'] for i in range(params['num_s'])]
 #%% Trial
 def trial(T):
     seed = T**2
     np.random.seed(seed)
-    points = np.vstack([np.zeros((3, d)), PP()])
+    
     print('<>'*10, flush = True)
     print('Starting Trial:' + str(T),flush = True)
     print('<>'*10,flush = True) 
     
     for i,s in enumerate(s_disc):
         print("Trial " + str(T) +" starts computing for s=" + str(s),flush = True)
-        # update target point
-        points[1,0] = s
-        points[2,0] = 2*s
+        bounds = np.zeros((d, 2))
+        bounds[0,0] = -s**(1/d)
+        bounds[0,1] = s + s**(1/d)
+        bounds[1:,0] = -s**(1/d)
+        bounds[1:,1] = s**(1/d)
+        delta = bounds[:,1] - bounds[:,0]
+        area = np.prod(delta)
         
-        # get points in frame
-        idx, = np.where(np.prod(np.abs(points) < 2.25*s, axis=1))
-        loc_points = points[idx,:]
-        if len(idx)>=2:
-            h = params['scaling'](s)
-            # get weight matrix
-            #W = gl.weightmatrix.epsilon_ball(loc_points, h, kernel='distance')
-            kd_tree = scipy.spatial.KDTree(loc_points)
-            W = kd_tree.sparse_distance_matrix(kd_tree, h)
+        PP = utils.Poisson_process(bounds, lamda = params['lamda'], area = area, d=d)
+        points = np.vstack([np.zeros((3, d)), PP()]) 
+        # update target point
+        points[1,0] = 0.5*s
+        points[2,0] = s
+        
+        h = params['scaling'](s)
+        # get weight matrix
+        kd_tree = scipy.spatial.KDTree(points)
+        W = kd_tree.sparse_distance_matrix(kd_tree, h)
+        
+        if np.sum(W[0,:]) == 0:
+            g_dist_1 = np.inf
+            g_dist_2 = np.inf
+        else:
+            # dist_matrix = scipy.sparse.csgraph.dijkstra(W, directed=False, indices=[0])
+            dist_matrix = scipy.sparse.csgraph.shortest_path(W, directed=False, indices=[0],return_predecessors=False)
+            g_dist_1 = dist_matrix[0,1]
+            g_dist_2 = dist_matrix[0,2] 
+        
+        with mp_arr.get_lock():
+            mp_arr[T*params['num_s']+i] = g_dist_1
             
-            if np.sum(W[0,:]) == 0:
-                g_dist_1 = np.inf
-                g_dist_2 = np.inf
-            else:
-                # dist_matrix = scipy.sparse.csgraph.dijkstra(W, directed=False, indices=[0])
-                dist_matrix = scipy.sparse.csgraph.shortest_path(W, directed=False, indices=[0],return_predecessors=False)
-                g_dist_1 = dist_matrix[0,1]
-                g_dist_2 = dist_matrix[0,2] 
-            
-            with mp_arr.get_lock():
-                mp_arr[T*params['num_s']+i] = g_dist_1
-                
-            with mp_arr2.get_lock():
-                mp_arr2[T*params['num_s']+i] = g_dist_2
+        with mp_arr2.get_lock():
+            mp_arr2[T*params['num_s']+i] = g_dist_2
         
 
 #%% Main Loop

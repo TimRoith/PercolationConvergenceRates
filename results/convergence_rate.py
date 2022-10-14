@@ -86,8 +86,8 @@ for i in range(len(data)):
         #ax2[0].plot(dists[idx], ratios, marker ='.', label=str(scale_factors[i]),color=color)
         ax2[0].plot(dists[idx], trial_ratios[idx], marker ='.', label=str(scale_factors[i]),color=color)
        
-        ax2[1].plot(dists[idx], np.abs(trial_ratios[idx]-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
-        #ax2[1].plot(dists[idx], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
+        #ax2[1].plot(dists[idx], np.abs(trial_ratios[idx]-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
+        ax2[1].plot(dists[idx], np.abs(ratios-0.5), marker ='.', label=str(scale_factors[i]),  color=color)
 
 ax2[1].set_yscale('log')
 ax2[1].set_xscale('log')
