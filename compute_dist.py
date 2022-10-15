@@ -26,12 +26,11 @@ def print_help():
     print('   -c (--num_cores=): Number of cores to use in parallel processing (default=1).')
     print('   -v (--verbose): Verbose mode.')
 #%% parameters
-d = 2
 params = {
 's_min' : 1,
 's_max' : 10000,# maximal domain size in the first component
 'num_s' : 10,# number of points for s
-'d' : d, # spatial dimension
+'d' : 2, # spatial dimension
 'lamda' : 1,# intensity of the point process
 'num_cores' : 40,
 'num_trials': 100,
@@ -69,7 +68,7 @@ for opt, arg in opts:
     elif opt in ("-c", "--num_cores"):
         params['num_cores'] = int(arg)
         
-params['scaling'] = utils.log_scale(d=d, factor=params['factor'])
+params['scaling'] = utils.log_scale(d=params['d'], factor=params['factor'])
 
 #%% domain and point process setup
 
@@ -82,6 +81,7 @@ s_disc = [2**i * params['s_min'] for i in range(params['num_s']) if (2**i * para
 def trial(T):
     seed = T**2
     np.random.seed(seed)
+    d = params['d']
     
     print('<>'*10, flush = True)
     print('Starting Trial:' + str(T),flush = True)

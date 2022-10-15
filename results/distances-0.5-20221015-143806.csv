@@ -1,0 +1,12 @@
+s_min,100.0
+s_max,10000
+num_s,6
+d,3
+lamda,1
+num_cores,50
+num_trials,1
+factor,0.5
+scaling,log-scale-factor-0.5
+T,100.0,200.0,400.0,800.0,1600.0,3200.0
+0,inf,inf,inf,inf,1241.7258803906802,2307.484842426305
+0,inf,inf,inf,inf,2480.991268983054,4597.141210133955
