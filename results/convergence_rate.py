@@ -8,7 +8,7 @@ import os
 
 #%% get files and extract data
 cur_path = os.path.dirname(os.path.realpath(__file__))
-path = cur_path + "\\log_scales_medium"
+path = cur_path + "\\log_scales_3d"
 files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
 data = []
@@ -58,7 +58,7 @@ ax[1].set_yscale('log')
 ax[1].set_xscale('log')   
 legend = ax[0].legend()
 legend.set_title('Factors')
-fig.savefig("vis/exp_converegnce.pdf",bbox_inches="tight")
+fig.savefig(path + "\\exp_converegnce.pdf",bbox_inches="tight")
 
 #%% ratio convergence
 m = data[0].shape[1]
@@ -101,4 +101,4 @@ ax2[1].axis('equal')
 legend = ax2[0].legend()
 legend.set_title('Factors')
 
-fig2.savefig("vis/ratio_converegnce.pdf",bbox_inches="tight")
+fig2.savefig(path+"\\ratio_converegnce.pdf",bbox_inches="tight")

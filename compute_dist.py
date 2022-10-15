@@ -29,7 +29,7 @@ def print_help():
 d = 2
 params = {
 's_min' : 1,
-'s_max' : 2000,# maximal domain size in the first component
+'s_max' : 10000,# maximal domain size in the first component
 'num_s' : 10,# number of points for s
 'd' : d, # spatial dimension
 'lamda' : 1,# intensity of the point process
@@ -77,7 +77,7 @@ params['scaling'] = utils.log_scale(d=d, factor=params['factor'])
 # initialize the function for creating a Poisson point process
 #s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array for s discretization
 
-s_disc = [2**i * params['s_min'] for i in range(params['num_s'])]
+s_disc = [2**i * params['s_min'] for i in range(params['num_s']) if 2**i * params['s_min']<= params['s_max']]
 #%% Trial
 def trial(T):
     seed = T**2
@@ -97,7 +97,7 @@ def trial(T):
         delta = bounds[:,1] - bounds[:,0]
         area = np.prod(delta)
         
-        PP = utils.Poisson_process(bounds, lamda = params['lamda'], area = area, d=d)
+        PP = utils.Poisson_process(bounds, lamda = params['lamda'], area = area, d=params['d'])
         points = np.vstack([np.zeros((3, d)), PP()]) 
         # update target point
         points[1,0] = 0.5*s
