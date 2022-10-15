@@ -77,7 +77,7 @@ params['scaling'] = utils.log_scale(d=d, factor=params['factor'])
 # initialize the function for creating a Poisson point process
 #s_disc = np.linspace(params['s_min'], params['s_max'], params['num_s']) # array for s discretization
 
-s_disc = [2**i * params['s_min'] for i in range(params['num_s']) if 2**i * params['s_min']<= params['s_max']]
+s_disc = [2**i * params['s_min'] for i in range(params['num_s']) if (2**i * params['s_min'])<= params['s_max']]
 #%% Trial
 def trial(T):
     seed = T**2
