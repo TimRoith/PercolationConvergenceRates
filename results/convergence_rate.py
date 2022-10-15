@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import cm
+from matplotlib import rc
 import csv
 import os
 
@@ -19,9 +21,11 @@ num_trials = data[0].shape[0]//2
 dists = data[0][0,:]
 #%%
 plt.close('all')
+rc('font',**{'family':'serif','serif':['Times']})
+rc('text', usetex=True)
 
-scale_factors = [.7, .8, 1.0, .8, .9, 1.0]
-colors=['peru', 'coral',  'r', 'y', 'b', 'g','tan',]
+scale_factors = [.5, .6, .7, .8, .9, 1.0]
+colors=['peru', 'coral',  'olive', 'sienna', 'steelblue', 'tan','deeppink']
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
 for i in range(len(data)):
@@ -48,6 +52,8 @@ for i in range(len(data)):
                            alpha=0.3, edgecolor=None, color=color)
     
 
+ax[0].set_xlabel('$s$')
+ax[0].set_ylabel('$T_s/s$')
 ax[1].set_yscale('log')
 ax[1].set_xscale('log')   
 legend = ax[0].legend()

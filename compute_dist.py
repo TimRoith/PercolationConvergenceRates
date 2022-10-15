@@ -42,7 +42,7 @@ params = {
 try:
     opts, args = getopt.getopt(sys.argv[1:],
                                "h:s:m:n:d:f:t:pc:v",
-                               ["help","s_max=","s_min=","num_s=","d=","factor=", 
+                               ["help","s_max=","s_min=","num_s=","dimension=","factor=", 
                                 "num_trials=",
                                 "parallel","num_cores=","verbose"])
 except getopt.GetoptError:
@@ -52,7 +52,7 @@ for opt, arg in opts:
     if opt in ("-h", "--help"):
         print_help()
         sys.exit()
-    elif opt in ("-d", "--d"):
+    elif opt in ("-d", "--dimension"):
         params['d'] = int(arg)
     elif opt in ("-f", "--factor"):
         params['factor'] = float(arg)
