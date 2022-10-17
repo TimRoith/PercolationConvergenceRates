@@ -32,7 +32,7 @@ $$
 Here, the scaling is chosen as
 
 $$
-\begin{align}\label{eq:logscaling}
+\begin{align}
 h_s := a\log(s)^{1/d},
 \end{align}
 $$
@@ -41,19 +41,27 @@ where $a>0$ is a factor. The file ```compute_dist.py``` computes the distances $
 
 ### Convergence of $T_s/s$
 
-We are interested in the values
+<p float="center">
+<img width="498" alt="image" src="https://user-images.githubusercontent.com/44805883/196193101-dd7f0b2d-fba4-41f2-bd4b-44abf6821aa1.png" width="400">
+</p>
 
+We are interested in the values
+  
 $$
-\begin{align}\label{eq:sample_ratio}
+\begin{align}
 \frac{\overline{\mathrm{T}}_i}{s_i},\quad i=1,\ldots, N.
 \end{align}
 $$
+
+<p float="center">
+<img width="498" alt="image" src="https://user-images.githubusercontent.com/44805883/196192680-7e0df67e-5b2b-4c85-83ef-413ede299deb.png" width="400">
+</p>
 
 The figure on the right is a log-log plot of the values
 
 $$
 \begin{align*}
-\abs{\frac{\overline{\mathrm{T}}_i}{s_i} - \sigma},\qquad i=1,\dots,N-1,
+\left|\frac{\overline{\mathrm{T}}_i}{s_i} - \sigma\right|,\qquad i=1,\dots,N-1,
 \end{align*}
 $$
 
@@ -76,7 +84,7 @@ $$
 \begin{align*}
 \frac{\overline{\mathrm{T}}_{i}}{\overline{\mathrm{T}}_{i,1/2}},
 \qquad
-\abs{\frac{\overline{\mathrm{T}}_{i}}{\overline{\mathrm{T}}_{i,1/2}} - \frac{1}{2}}
+\left|\frac{\overline{\mathrm{T}}_{i}}{\overline{\mathrm{T}}_{i,1/2}} - \frac{1}{2}\right|
 \end{align*}
 $$
 
