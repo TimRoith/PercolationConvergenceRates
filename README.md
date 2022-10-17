@@ -13,7 +13,8 @@ Experimental evaluation of convergence rates for Euclidean first-passage percola
 ```
 @article{bungert2022ratio,
     author = {Bungert, Leon and Calder, Jeff and Roith, Tim},
-    title = {Ratio convergence rates for Euclidean first-passage percolation: Applications to the graph infinity Laplacian},
+    title = {Ratio convergence rates for Euclidean first-passage percolation: 
+             Applications to the graph infinity Laplacian},
     year = {2022}
 }
 ```
