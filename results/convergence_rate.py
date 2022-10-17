@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.pyplot import cm
 from matplotlib import rc
 import csv
 import os
@@ -9,10 +8,27 @@ import os
 #%% get files and extract data
 cur_path = os.path.dirname(os.path.realpath(__file__))
 path = cur_path + "\\log_scales_3d"
-files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f)) and f.endswith('.csv')]
+params = {}
+scale_factors = []
 
+# get params
+with open(path + '\\' +  files[0]) as csvfile:
+    reader = csv.reader(csvfile, delimiter=',')
+    for i, row in enumerate(reader):
+        if i <= 8:
+            params[row[0]] = row[1]
+
+            # add scaling factors
+for fname in files:
+    with open(path + '\\' +  fname) as csvfile:
+        reader = csv.reader(csvfile, delimiter=',')
+        for i, row in enumerate(reader):
+            if row[0] == 'factor':
+                scale_factors.append(row[1])
+                
+#%%
 data = []
-
 for fname in files:
     G = np.genfromtxt(path + '\\' +  fname, delimiter=',', skip_header=9)
     data.append(G[:,1:])
@@ -21,10 +37,8 @@ num_trials = data[0].shape[0]//2
 dists = data[0][0,:]
 #%%
 plt.close('all')
-rc('font',**{'family':'serif','serif':['Times']})
+rc('font',**{'family':'serif','serif':['Times'],'size':14})
 rc('text', usetex=True)
-
-scale_factors = [.5, .6, .7, .8, .9, 1.0]
 colors=['peru', 'coral',  'olive', 'sienna', 'steelblue', 'tan','deeppink']
 
 fig, ax = plt.subplots(1,2, figsize=(15, 5))
@@ -38,6 +52,10 @@ for i in range(len(data)):
     exp_ratios_2 = np.mean(ratios_2, axis=0)
     std_ratios_2 = np.std(ratios_2, axis=0)
     
+    k = 1
+    exp_errors_2 = np.abs(exp_ratios_2 - exp_ratios_2[-1])
+    #std_errors_2 = np.std(errors_2, axis=0)[:-k]
+    
     # plotting
     color = colors[i]
     ax[0].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
@@ -46,19 +64,20 @@ for i in range(len(data)):
                            exp_ratios_2 + std_ratios_2,\
                            alpha=0.3, edgecolor=None, color=color)
         
-    ax[1].plot(dists, exp_ratios_2, marker ='.', label=str(scale_factors[i]), color=color)
-    ax[1].fill_between(dists, (exp_ratios_2 - std_ratios_2),\
-                           (exp_ratios_2 + std_ratios_2),\
-                           alpha=0.3, edgecolor=None, color=color)
+    ax[1].plot(dists[:-k], exp_errors_2[:-k], marker ='.', label=str(scale_factors[i]), color=color)
+    ax[1].fill_between(dists[:-k], (exp_errors_2 - std_ratios_2)[:-k],\
+                            (exp_errors_2 + std_ratios_2)[:-k],\
+                            alpha=0.3, edgecolor=None, color=color)
     
 
-ax[0].set_xlabel('$s$')
-ax[0].set_ylabel('$T_s/s$')
+ax[0].set_xlabel('$s$', size=16)
 ax[1].set_yscale('log')
-ax[1].set_xscale('log')   
+ax[1].set_xscale('log')
+ax[1].set_xlabel('$\log(s)$', size=16)
+ax[1].axis('equal')  
 legend = ax[0].legend()
 legend.set_title('Factors')
-fig.savefig(path + "\\exp_converegnce.pdf",bbox_inches="tight")
+fig.savefig(path + "\\exp_convergence_" + params['d'] + "d.pdf",bbox_inches="tight")
 
 #%% ratio convergence
 m = data[0].shape[1]
@@ -97,8 +116,10 @@ for i in range(len(data)):
 
 ax2[1].set_yscale('log')
 ax2[1].set_xscale('log')
+ax2[0].set_xlabel('$s$', size=16)
+ax2[1].set_xlabel('$\log(s)$', size=16)
 ax2[1].axis('equal')
 legend = ax2[0].legend()
 legend.set_title('Factors')
 
-fig2.savefig(path+"\\ratio_converegnce.pdf",bbox_inches="tight")
+fig2.savefig(path+"\\ratio_convergence_" + params['d'] + "d.pdf",bbox_inches="tight")
