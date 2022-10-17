@@ -46,7 +46,7 @@ h_s := a\log(s)^{1/d},
 \end{align}
 $$
 
-where $a>0$ is a factor. The file ```compute_dist.py``` computes the distances $d_{h_{s_i}, P_{i,k}}(0, s_i e_1)$ for each trial and each value of $s_i$ and writes them in to a dedicated .csv file. Evaluation is then performed in the script ```convergence_rate.py``` in the subfolder ```/results```.
+where $a>0$ is a factor. The file ```compute_dist.py``` computes the distances $d_{h_{s_i}, P_{i,k}}(0, s_i e_1)$ for each trial and each value of $s_i$ and writes them into a dedicated .csv file. Evaluation is then performed in the script ```convergence_rate.py``` in the subfolder ```/results```.
 
 ## :chart_with_upwards_trend: Convergence of $T_s/s$
 
@@ -70,7 +70,7 @@ $$
 \end{align*}
 $$
 
-is visualized, where the limiting constant $\sigma$, whose analytic value is not known, is approximated by $\sigma = \frac{\overline{\mathrm{T}}_N}{s_N}$.
+is visualized, where the limiting constant $\sigma$, whose analytic value is not known, is approximated by $\sigma = \frac{{T}_N}{s_N}$.
 
 ## :chart_with_upwards_trend: Ratio Convergence
 
@@ -78,7 +78,7 @@ is visualized, where the limiting constant $\sigma$, whose analytic value is not
 |:--:|:--:| 
 |Dimension $d=2$|Dimension $d=3$|
 
-Additionally, we want to evaluate the ratio convergence which we proved in \cref{prop:ratio_convergence_exp}. 
+Additionally, we want to evaluate the ratio convergence which we proved in Proposition 5.4 of our paper. 
 Therefore, we also compute
 
 $$
