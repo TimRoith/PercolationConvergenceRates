@@ -39,11 +39,11 @@ $$
 
 where $a>0$ is a factor. The file ```compute_dist.py``` computes the distances $d_{h_{s_i}, P_{i,k}}(0, s_i e_1)$ for each trial and each value of $s_i$ and writes them in to a dedicated .csv file. Evaluation is then performed in the script ```convergence_rate.py``` in the subfolder ```/results```.
 
-### Convergence of $T_s/s$
+## Convergence of $T_s/s$
 
-<p float="center">
-<img width="498" alt="image" src="https://user-images.githubusercontent.com/44805883/196193101-dd7f0b2d-fba4-41f2-bd4b-44abf6821aa1.png" width="400">
-</p>
+|<img alt="image" src="https://user-images.githubusercontent.com/44805883/196193101-dd7f0b2d-fba4-41f2-bd4b-44abf6821aa1.png"  width="498">|<img alt="image" src="https://user-images.githubusercontent.com/44805883/196192680-7e0df67e-5b2b-4c85-83ef-413ede299deb.png"  width="498" align="center">|
+|:--:|:--:| 
+|Dimension $d=2$|Dimension $d=3$|
 
 We are interested in the values
   
@@ -53,11 +53,7 @@ $$
 \end{align}
 $$
 
-<p float="center">
-<img width="498" alt="image" src="https://user-images.githubusercontent.com/44805883/196192680-7e0df67e-5b2b-4c85-83ef-413ede299deb.png" width="400">
-</p>
-
-The figure on the right is a log-log plot of the values
+The right side is a log-log plot of the values
 
 $$
 \begin{align*}
@@ -67,7 +63,11 @@ $$
 
 is visualized, where the limiting constant $\sigma$, whose analytic value is not known, is approximated by $\sigma = \frac{\overline{\mathrm{T}}_N}{s_N}$.
 
-### Ratio Convergence
+## Ratio Convergence
+
+|<img width="500" alt="image" src="https://user-images.githubusercontent.com/44805883/196195548-1b794453-a213-42bd-a23b-12bb533cfaf2.png">|<img width="501" alt="image" src="https://user-images.githubusercontent.com/44805883/196195774-18ff914b-04cd-4f8b-90ae-623fe44d3313.png">|
+|:--:|:--:| 
+|Dimension $d=2$|Dimension $d=3$|
 
 Additionally, we want to evaluate the ratio convergence which we proved in \cref{prop:ratio_convergence_exp}. 
 Therefore, we also compute
