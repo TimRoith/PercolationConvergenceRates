@@ -33,9 +33,9 @@ for different values of $s>0$ and dimensions $d=2$ and $d=3$.
 In order to observe the limiting behavior for $s\to\infty$ we evaluate distances at $s_i = 100\cdot 2^i$ for $i=1,\ldots, N\in\mathbb{N}$. For each distance we perform $K\in\mathbb{N}$ different trials, where in each trial $k=1,\ldots,K$ we sample a Poisson point process $P_{i,k}\subset\Omega_{s_i}$ with unit density and then set
 
 $$
-\begin{align*}
-\overline{\mathrm{T}}_{i}:= \frac{1}{K}\sum_{k=1}^K d_{h_{s_i}, P_{i,k}}(0, s_i e_1).
-\end{align*}
+\begin{align}
+T_i:= \frac{1}{K} \sum_{k=1}^K d_{h_{s_i}, P_{i,k}}(0, s_i e_1).
+\end{align}
 $$
 
 Here, the scaling is chosen as
@@ -58,7 +58,7 @@ We are interested in the values
   
 $$
 \begin{align}
-\frac{\overline{\mathrm{T}}_i}{s_i},\quad i=1,\ldots, N.
+\frac{T_i}{s_i},\quad i=1,\ldots, N.
 \end{align}
 $$
 
@@ -66,7 +66,7 @@ The right side is a log-log plot of the values
 
 $$
 \begin{align*}
-\left|\frac{\overline{\mathrm{T}}_i}{s_i} - \sigma\right|,\qquad i=1,\dots,N-1,
+\left|\frac{T_i}{s_i} - \sigma\right|,\qquad i=1,\dots,N-1,
 \end{align*}
 $$
 
@@ -83,7 +83,7 @@ Therefore, we also compute
 
 $$
 \begin{align*}
-\overline{\mathrm{T}}_{i,1/2}:= \frac{1}{K}\sum_{k=1}^K d_{h_{s_i}, P_{i,k}}\left(0, \frac{s_i}{2} e_1\right)
+T_{i,1/2}:= \frac{1}{K}\sum_{k=1}^K d_{h_{s_i}, P_{i,k}}\left(0, \frac{s_i}{2} e_1\right)
 \end{align*}
 $$
 
@@ -91,9 +91,9 @@ and visualize the ratios and errors
 
 $$
 \begin{align*}
-\frac{\overline{\mathrm{T}}_{i}}{\overline{\mathrm{T}}_{i,1/2}},
+\frac{T_{i}}{T_{i,1/2}},
 \qquad
-\left|\frac{\overline{\mathrm{T}}_{i}}{\overline{\mathrm{T}}_{i,1/2}} - \frac{1}{2}\right|
+\left|\frac{T_i}{T_{i,1/2}} - \frac{1}{2}\right|
 \end{align*}
 $$
 
