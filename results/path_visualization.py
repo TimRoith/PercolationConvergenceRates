@@ -17,7 +17,7 @@ params = {
 's_min' : 100,
 's_max' : 10000,# maximal domain size in the first component
 'num_s' : 4,# number of points for s
-'d' : 3, # spatial dimension
+'d' : 2, # spatial dimension
 'lamda' : 1,# intensity of the point process
 'num_cores' : 40,
 'num_trials': 100,

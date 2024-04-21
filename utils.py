@@ -63,11 +63,14 @@ class plot_handler:
             path_plot, = ax[0,0].plot(points[:2,0], points[:2,1], c='tab:pink',linewidth=2)
             self.path_vis = path_plot
             self.target_vis = ax[0,0].scatter(points[:2,0], points[:2,1], c='navy', s=25, marker='o')
-        
+            line_plot, = ax[0,0].plot(points[:2,0], points[:2,1], c='navy', linewidth=1)
+            self.line_vis = line_plot
+            self.path_vis = path_plot  
+            
         elif self.d==3:
             ax[0,0].scatter(points[:,0], points[:,1], zs=points[:,2], c='skyblue', s=1,alpha=0.02)
             path_plot, = ax[0,0].plot(points[:2,0], points[:2,1], zs=points[:2,2], c='tab:pink',linewidth=2)
-            line_plot, = ax[0,0].plot(points[0,0], points[1,0], c='navy', linewidth=1)
+            line_plot, = ax[0,0].plot(points[:2,0], points[:2,0], zs=points[:2,2], c='navy', linewidth=1)
             self.path_vis = path_plot
             self.line_vis = line_plot
             self.target_vis = ax[0,0].scatter(points[:2,0], points[:2,1], points[:2,2], c='navy', s=25, marker='o')
@@ -83,6 +86,7 @@ class plot_handler:
         elif self.d==2:
             self.target_vis.set_offsets(self.points[:2,:])
             self.path_vis.set_data(self.points[idx,0],self.points[idx,1])
+            self.line_vis.set_data(self.points[:2,0],self.points[:2,1])
             
         elif self.d==3:
             pass
