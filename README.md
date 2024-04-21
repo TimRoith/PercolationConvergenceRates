@@ -8,14 +8,17 @@
 
 
 
-Experimental evaluation of convergence rates for Euclidean first-passage percolation. This code produces the examples for the paper "Ratio convergence rates for Euclidean first-passage percolation: Applications to the graph infinity Laplacian".
+Experimental evaluation of convergence rates for Euclidean first-passage percolation. This code produces the examples for the paper "Ratio convergence rates for Euclidean first-passage percolation: Applications to the graph infinity Laplacian": https://arxiv.org/abs/2210.09023
 
 ```
-@article{bungert2022ratio,
+@online{bungert2022ratio,
     author = {Bungert, Leon and Calder, Jeff and Roith, Tim},
     title = {Ratio convergence rates for Euclidean first-passage percolation: 
              Applications to the graph infinity Laplacian},
-    year = {2022}
+    year = {2022},
+    eprint={2210.09023},
+    archivePrefix={arXiv},
+    primaryClass={math.PR}
 }
 ```
 
